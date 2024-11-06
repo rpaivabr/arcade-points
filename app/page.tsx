@@ -10,7 +10,7 @@ export default function Home() {
   useEffect(() => {
     async function fetchUser() {
       if (profile) {
-        const res = await fetch(`https://https://arcade-points-topaz.vercel.app/api?url=${profile}`)
+        const res = await fetch(`https://arcade-points-topaz.vercel.app/api?url=${profile}`)
         const data = await res.json()
         setUser(data)
       }
