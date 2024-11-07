@@ -49,14 +49,16 @@ export default function Home() {
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
-  const [profile, setProfile] = useState('');
+  const [profile, setProfile] = useState("");
 
   useEffect(() => {
     async function fetchUser() {
       if (profile) {
         setIsLoading(true);
         setUser(null);
-        const res = await fetch(`https://arcade-points-topaz.vercel.app/api?url=${profile}`);
+        const res = await fetch(
+          `https://arcade-points-topaz.vercel.app/api?url=${profile}`
+        );
         const { data } = await res.json();
         setUser(data);
         setIsLoading(false);
@@ -178,6 +180,10 @@ export default function Home() {
                     : 65 - user.points.total}{" "}
                   arcade points
                 </p>
+              </>
+            )}
+            {user.milestone < 3 && (
+              <>
                 <h3 className="font-bold">Para o próximo bonus faltam: </h3>
                 <ul>
                   {user.milestone + 1 > user.totalBadges.games && (
