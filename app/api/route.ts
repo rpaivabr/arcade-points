@@ -591,7 +591,6 @@ async function scrapBadges(url: string) {
     badgesInfo[index].day = day;
     badgesInfo[index].year = year;
   });
-  console.log(badgesInfo);
 
   const validTitle = (title: string) =>
     badgesList.map((b) => b.title).includes(title);
