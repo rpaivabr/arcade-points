@@ -596,7 +596,7 @@ async function scrapBadges(url: string) {
     badgesList.map((b) => b.title).includes(title);
   const validDate = (year: number, month: number, day: number) =>
     (year === 2024 && month === 10) ||
-    (year === 2024 && month === 11 && day <= 15);
+    (year === 2024 && month === 11 && day <= 18);
   const validBadges = badgesInfo.filter(
     (badge) =>
       validTitle(badge.title) && validDate(badge.year, badge.month, badge.day)
