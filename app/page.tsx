@@ -166,7 +166,7 @@ export default function Home() {
                 </h2>
                 <Image
                   alt="milestone prize"
-                  src={"/milestone" + user.milestone + ".png"}
+                  src={"/m" + user.milestone + ".png"}
                   className="mx-auto my-3"
                 />
               </>
