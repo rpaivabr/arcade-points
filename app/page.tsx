@@ -38,6 +38,7 @@ export interface User {
     games: number;
     trivias: number;
     skillBadges: number;
+    completion: number;
   };
   url: string;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -138,6 +139,19 @@ export default function Home() {
                       user.badges.reduce(
                         (sum, badge) =>
                           badge.type === "skill" ? sum + badge.points : sum,
+                        0
+                      )
+                    )}
+                  </TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell className="font-medium">Completion Badges</TableCell>
+                  <TableCell>{user.totalBadges.completion}</TableCell>
+                  <TableCell>
+                    {Math.floor(
+                      user.badges.reduce(
+                        (sum, badge) =>
+                          badge.type === "completion" ? sum + badge.points : sum,
                         0
                       )
                     )}
