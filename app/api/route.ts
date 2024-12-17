@@ -55,6 +55,26 @@ async function scrapBadges(url: string) {
       type: "trivia",
       points: 1,
     },
+    {
+      title: "The Arcade Trivia December 2024 Week 1",
+      type: "trivia",
+      points: 1,
+    },
+    {
+      title: "The Arcade Trivia December 2024 Week 2",
+      type: "trivia",
+      points: 1,
+    },
+    {
+      title: "The Arcade Trivia December 2024 Week 3",
+      type: "trivia",
+      points: 1,
+    },
+    {
+      title: "The Arcade Trivia December 2024 Week 4",
+      type: "trivia",
+      points: 1,
+    },
     // games
     {
       title: "Level 1: Automation and CI/CD Skills",
@@ -90,6 +110,31 @@ async function scrapBadges(url: string) {
       title: "Diwali in The Arcade",
       type: "game",
       points: 2,
+    },
+    {
+      title: "The Arcade Base Camp December 2024",
+      type: "game",
+      points: 1,
+    },
+    {
+      title: "The Arcade Certification Zone December 2024",
+      type: "game",
+      points: 1,
+    },
+    {
+      title: "Level 1: Cloud Infrastructure and Data",
+      type: "game",
+      points: 1,
+    },
+    {
+      title: "Level 2: Cloud Monitoring",
+      type: "game",
+      points: 1,
+    },
+    {
+      title: "Level 3: BigQuery and Firebase",
+      type: "game",
+      points: 1,
     },
     // skill badge
     {
@@ -567,6 +612,46 @@ async function scrapBadges(url: string) {
       type: "skill",
       points: 0.5,
     },
+    {
+      title: "CCAI Frontend Integrations",
+      type: "completion",
+      points: 0.5,
+    },
+    {
+      title: "Advanced Conversation Design",
+      type: "completion",
+      points: 0.5,
+    },
+    {
+      title: "Conversation Design Fundamentals",
+      type: "completion",
+      points: 0.5,
+    },
+    {
+      title: "CCAI Architecture",
+      type: "completion",
+      points: 0.5,
+    },
+    {
+      title: "Advanced Performance Measurement",
+      type: "completion",
+      points: 0.5,
+    },
+    {
+      title: "Basic Performance Measurement",
+      type: "completion",
+      points: 0.5,
+    },
+    {
+      title: "Advanced Webhook Concepts",
+      type: "completion",
+      points: 0.5,
+    },
+    {
+      title: "Webhook fundamentals",
+      type: "completion",
+      points: 0.5,
+    },
   ];
   const name = $('h1.ql-display-small').text().replaceAll('\n', '');
   const avatar = $('.profile-avatar').attr('src');
@@ -592,17 +677,17 @@ async function scrapBadges(url: string) {
     badgesInfo[index].year = year;
   });
 
-  const validTitle = (title: string) =>
+  const validLatamTitle = (title: string) =>
     badgesList.map((b) => b.title).includes(title);
-  const validDate = (year: number, month: number, day: number) =>
+  const validLatamDate = (year: number, month: number, day: number) =>
     (year === 2024 && month === 10) ||
     (year === 2024 && month === 11 && day <= 18);
-  const validBadges = badgesInfo.filter(
+  const validLatamBadges = badgesInfo.filter(
     (badge) =>
-      validTitle(badge.title) && validDate(badge.year, badge.month, badge.day)
+      validLatamTitle(badge.title) && validLatamDate(badge.year, badge.month, badge.day)
   );
 
-  const allValidBadges = validBadges.map(
+  const allValidLatamBadges = validLatamBadges.map(
     ({ title, year, month, day, points, badgeId, type }) => ({
       title,
       date: new Date(year, month - 1, day).toISOString().split("T")[0],
@@ -612,20 +697,75 @@ async function scrapBadges(url: string) {
     })
   );
 
-  const games = allValidBadges.reduce((sum, badge) => badge.type === 'game' ? sum + 1 : sum, 0);
-  const trivias = allValidBadges.reduce((sum, badge) => badge.type === 'trivia' ? sum + 1 : sum, 0);
-  const skillBadges = allValidBadges.reduce((sum, badge) => badge.type === 'skill' ? sum + 1 : sum, 0);
-  const arcade = Math.floor(allValidBadges.reduce((sum, badge) => sum + badge.points, 0));
+  let games = allValidLatamBadges.reduce((sum, badge) => badge.type === 'game' ? sum + 1 : sum, 0);
+  let trivias = allValidLatamBadges.reduce((sum, badge) => badge.type === 'trivia' ? sum + 1 : sum, 0);
+  let skillBadges = allValidLatamBadges.reduce((sum, badge) => badge.type === 'skill' ? sum + 1 : sum, 0);
+  let arcade = allValidLatamBadges.reduce((sum, badge) => sum + badge.points, 0);
   const bonus = games >= 3 && trivias >= 3 && skillBadges >= 18
     ? 30 : games >= 2 && trivias >= 2 && skillBadges >= 12
       ? 20 : games >= 1 && trivias >= 1 && skillBadges >= 6
         ? 10 : 0;
+
+  const validLessonTitleAndType = (title: string) => {
+    const badge = badgesList.find((b) => b.title === title);
+    if (!badge) return false;
+
+    return badge.type === 'completion';
+  }
+  const validLessonDate = (year: number, month: number, day: number) =>
+    (year === 2024 && month === 11 && day >= 19) ||
+    (year === 2024 && month === 12 && day <= 3);
+  const validLessonBadges = badgesInfo.filter(
+    (badge) =>
+      validLessonTitleAndType(badge.title) && validLessonDate(badge.year, badge.month, badge.day)
+  );
+
+  const allValidLessonBadges = validLessonBadges.map(
+    ({ title, year, month, day, points, badgeId, type }) => ({
+      title,
+      date: new Date(year, month - 1, day).toISOString().split("T")[0],
+      points,
+      badgeId,
+      type
+    })
+  );
+
+  const completion = allValidLessonBadges.reduce((sum, badge) => badge.type === 'completion' ? sum + 1 : sum, 0);
+  arcade = allValidLessonBadges.reduce((sum, badge) => sum + badge.points, arcade);
+
+  const validEndTitle = (title: string) =>
+    badgesList.map((b) => b.title).includes(title);
+  const validEndDate = (year: number, month: number, day: number) =>
+    (year === 2024 && month === 12 && day >= 4);
+  const validEndBadges = badgesInfo.filter(
+    (badge) =>
+      validEndTitle(badge.title) && validEndDate(badge.year, badge.month, badge.day)
+  );
+
+  const allValidEndBadges = validEndBadges.map(
+    ({ title, year, month, day, points, badgeId, type }) => ({
+      title,
+      date: new Date(year, month - 1, day).toISOString().split("T")[0],
+      points,
+      badgeId,
+      type
+    })
+  );
+
+  games = allValidEndBadges.reduce((sum, badge) => badge.type === 'game' ? sum + 1 : sum, games);
+  trivias = allValidEndBadges.reduce((sum, badge) => badge.type === 'trivia' ? sum + 1 : sum, trivias);
+  skillBadges = allValidEndBadges.reduce((sum, badge) => badge.type === 'skill' ? sum + 1 : sum, skillBadges);
+  arcade = Math.floor(allValidEndBadges.reduce((sum, badge) => sum + badge.points, arcade));
+
   const total = arcade + bonus;
   const milestone = total < 15
     ? 0 : total < 30
       ? 1 : total < 45
         ? 2 : total < 65
-          ? 3 : 4;
+          ? 3 : total < 75
+            ? 4 : 5;
+
+  const allValidBadges = [...allValidLatamBadges, ...allValidLessonBadges, ...allValidEndBadges];
 
   return {
     url,
@@ -636,6 +776,7 @@ async function scrapBadges(url: string) {
       games,
       trivias,
       skillBadges,
+      completion,
     },
     points: {
       arcade,
