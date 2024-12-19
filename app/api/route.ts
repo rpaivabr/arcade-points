@@ -136,6 +136,11 @@ async function scrapBadges(url: string) {
       type: "game",
       points: 1,
     },
+    {
+      title: "Arcade Snowdown",
+      type: "game",
+      points: 2,
+    },
     // skill badge
     {
       title: "Manage Kubernetes in Google Cloud",
