@@ -708,7 +708,7 @@ async function scrapBadges(url: string) {
   let arcade = allValidLatamBadges.reduce((sum, badge) => sum + badge.points, 0);
   const bonus = games >= 3 && trivias >= 3 && skillBadges >= 18
     ? 30 : games >= 2 && trivias >= 2 && skillBadges >= 12
-      ? 20 : games >= 1 && trivias >= 1 && skillBadges >= 6
+      ? 15 : games >= 1 && trivias >= 1 && skillBadges >= 6
         ? 10 : 0;
 
   const validLessonTitleAndType = (title: string) => {
